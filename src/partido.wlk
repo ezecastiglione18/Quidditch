@@ -1,6 +1,6 @@
 object partido {
-	var equipo1
-	var equipo2
+	var property equipo1
+	var property equipo2
 	var puntosEquipo1
 	var puntosEquipo2
 	
@@ -14,5 +14,13 @@ object partido {
 	
 	method jugar(){
 		equipo1.jugarTurno(equipo2)
+	}
+	
+	method subirPuntosEquipo1(unosPuntos){
+		puntosEquipo1 += unosPuntos
+	}
+	
+	method subirPuntosEquipo2(unosPuntos){
+		puntosEquipo2 += unosPuntos
 	}
 }

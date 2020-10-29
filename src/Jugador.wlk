@@ -175,6 +175,10 @@ class Buscador inherits Jugador {
 		return self.velocidadMaxima() + skills + (nivelReflejos * nivelVision)
 	}
 	
+	method puedeBloquearTiroDe(unJugador){
+		
+	}
+	
 	method esBlancoFacil(){
 		return true //MODIFICAR!
 	}
