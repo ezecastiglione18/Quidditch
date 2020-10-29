@@ -14,8 +14,12 @@ class Equipo {
 	
 	//PUNTO 3
 	method jugarPicadoContra(otroEquipo){
-		const partido = new Partido(equipo1 = self, equipo2 = otroEquipo, puntosEquipo1 = 0, puntosEquipo2 = 0)
-		partido.jugar()
+		partido.setearEquipo1(self)
+		partido.setearEquipo2(otroEquipo)
+	}
+	
+	method sumarPuntos(unosPuntos){
+		//REVISAR!
 	}
 	
 	method jugarTurno(otroEquipo){
@@ -36,5 +40,13 @@ class Equipo {
 	
 	method losCazadores(){
 		return jugadores.filter( {jugador => jugador.esCazador()} )
+	}
+	
+	method noTieneLaQuaffle(){
+		return self.losCazadores().all( {jugador => jugador.tieneQuaffle().negate()} )
+	}
+	
+	method blancosFaciles(){
+		return jugadores.filter( {jugador => jugador.esBlancoFacil()} )
 	}
 }

@@ -9,10 +9,18 @@ class Nimbus {
 		return (80-cantidadDeAnios)*porcentaje
 	}
 	
+	method recibirGolpe(){
+		porcentajeSalud -= 10
+	}
+	
 }
 
 object saetaDeFuego {
 	const property velocidad = 100
+	
+	method recibirGolpe(){
+		
+	}
 }
 
 //--------------------------------------

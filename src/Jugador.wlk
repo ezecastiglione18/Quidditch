@@ -1,10 +1,12 @@
 import escobas.*
+import partido.*
 
 class Jugador {
 	var skills
 	var peso
 	var escoba
 	var equipoActual
+	var property nivelReflejos
 	
 	//PUNTO 1.A
 	method nivelManejoEscoba(){
@@ -42,6 +44,11 @@ class Jugador {
 	method restarSkills(numero){
 		self.sumarSkills(-numero)
 	}
+	
+	method lePegoUnaBlundger(){
+		self.restarSkills(2)
+		escoba.recibirGolpe()	
+	}
 }
 
 class Cazador inherits Jugador {
@@ -61,7 +68,7 @@ class Cazador inherits Jugador {
 		tieneQuaffle = true
 		if(self.evitoTodosLosBloqueosDe(otroEquipo))
 		{
-			equipoActual.sumarPuntos(10)
+			//equipoActual.sumarPuntos(10)
 			self.sumarSkills(5)
 		}
 		else
@@ -86,10 +93,18 @@ class Cazador inherits Jugador {
 	method tieneLaQuaffle(){
 		tieneQuaffle = true
 	}
+	
+	method esBlancoFacil(){
+		return tieneQuaffle
+	}
+	
+	override method lePegoUnaBlundger(){
+		super()
+		tieneQuaffle = false
+	}
 }
 
 class Guardian inherits Jugador {
-	var nivelReflejos
 	var fuerza
 	const esCazador = false
 	const esGuardian = true
@@ -104,6 +119,14 @@ class Guardian inherits Jugador {
 		const lista = [1,2,3]
 		const numeroElegido = lista.anyOne()
 		return numeroElegido == 3
+	}
+	
+	method jugarTurno(otroEquipo){
+		
+	}
+	
+	method esBlancoFacil(){
+		return equipoActual.noTieneQuaffle()
 	}
 }
 
@@ -122,17 +145,41 @@ class Golpeador inherits Jugador {
 	method puedeBloquearTiroDe(unJugador){
 		return self.esGroso()
 	}
+	
+	method jugarTurno(otroEquipo){
+		const jugadorAGolpear = otroEquipo.blancosFaciles().anyOne()
+		if(self.puedeGolpearA(jugadorAGolpear)){
+			jugadorAGolpear.lePegoUnaBlundger()
+			skills += 1
+		}
+	}
+	
+	method puedeGolpearA(unJugador){
+		return punteria > unJugador.nivelReflejos()
+	}
+	
+	method esBlancoFacil(){
+		return false
+	}
 }
 
 class Buscador inherits Jugador {
-	var nivelReflejos
 	var nivelVision
 	const esCazador = false
 	const esGuardian = false
 	const esGolpeador = false
 	const esBuscador = true
+	const tieneSnitch = false
 	
 	override method habilidad(){
 		return self.velocidadMaxima() + skills + (nivelReflejos * nivelVision)
+	}
+	
+	method esBlancoFacil(){
+		return true //MODIFICAR!
+	}
+	
+	override method lePegoUnaBlundger(){
+		super() //&& self.resetearBusquedaSnitch()
 	}
 }
