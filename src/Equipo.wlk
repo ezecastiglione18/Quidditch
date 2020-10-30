@@ -18,8 +18,8 @@ class Equipo {
 		partido.setearEquipo2(otroEquipo)
 	}
 	
-	method sumarPuntos(unosPuntos){
-		//REVISAR!
+	method sumarPuntosGraciasA(unosPuntos, unJugador){
+		partido.sumarlePuntosAlEquipoDe(unJugador, unosPuntos)
 	}
 	
 	method jugarTurno(otroEquipo){

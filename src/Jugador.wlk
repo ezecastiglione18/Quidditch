@@ -49,6 +49,10 @@ class Jugador {
 		self.restarSkills(2)
 		escoba.recibirGolpe()	
 	}
+	
+	method juegaPara(unEquipo){
+		return equipoActual == unEquipo
+	}
 }
 
 class Cazador inherits Jugador {
@@ -56,9 +60,6 @@ class Cazador inherits Jugador {
 	var fuerza
 	var tieneQuaffle
 	const property esCazador = true
-	const esGuardian = false
-	const esGolpeador = false
-	const esBuscador = false
 	
 	override method habilidad(){
 		return self.velocidadMaxima() + skills + (punteria * fuerza)
@@ -68,7 +69,7 @@ class Cazador inherits Jugador {
 		tieneQuaffle = true
 		if(self.evitoTodosLosBloqueosDe(otroEquipo))
 		{
-			//equipoActual.sumarPuntos(10)
+			equipoActual.sumarPuntosGraciasA(10, self)
 			self.sumarSkills(5)
 		}
 		else
@@ -106,10 +107,6 @@ class Cazador inherits Jugador {
 
 class Guardian inherits Jugador {
 	var fuerza
-	const esCazador = false
-	const esGuardian = true
-	const esGolpeador = false
-	const esBuscador = false
 	
 	override method habilidad(){
 		return self.velocidadMaxima() + skills + nivelReflejos + fuerza 
@@ -133,12 +130,8 @@ class Guardian inherits Jugador {
 class Golpeador inherits Jugador {
 	var punteria
 	var fuerza
-	const esCazador = false
-	const esGuardian = false
-	const esGolpeador = true
-	const esBuscador = false
 	
-	method habilidad(){
+	override method habilidad(){
 		return self.velocidadMaxima() + skills + punteria + fuerza
 	}
 	
@@ -165,11 +158,7 @@ class Golpeador inherits Jugador {
 
 class Buscador inherits Jugador {
 	var nivelVision
-	const esCazador = false
-	const esGuardian = false
-	const esGolpeador = false
-	const esBuscador = true
-	const tieneSnitch = false
+	//const tieneSnitch = false
 	
 	override method habilidad(){
 		return self.velocidadMaxima() + skills + (nivelReflejos * nivelVision)
