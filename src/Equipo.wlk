@@ -3,6 +3,14 @@ import partido.*
 class Equipo {
 	var property jugadores
 	
+	method habilidadPromedio(){
+		return self.listaDeHabilidades() / jugadores.size()
+	}
+	
+	method listaDeHabilidades(){
+		return jugadores.map( {jugador => jugador.habilidad()} )
+	}
+	
 	//PUNTO 2.C
 	method tieneUnJugadorEstrellaContra(otroEquipo){
 		return jugadores.any( {jugador => jugador.lesPasaElTrapoATodosDe(otroEquipo)} )
@@ -16,6 +24,7 @@ class Equipo {
 	method jugarPicadoContra(otroEquipo){
 		partido.setearEquipo1(self)
 		partido.setearEquipo2(otroEquipo)
+		partido.jugar()
 	}
 	
 	method sumarPuntosGraciasA(unosPuntos, unJugador){
@@ -27,7 +36,7 @@ class Equipo {
 	}
 	
 	method noPudoBloquearA(unJugador){
-		return jugadores.count( {jugador => jugador.puedeBloquearTiroDe(unJugador)} ) == 0
+		return self.losQuePuedenBloquearA(unJugador).size() == 0
 	}
 	
 	method losQuePuedenBloquearA(unJugador){

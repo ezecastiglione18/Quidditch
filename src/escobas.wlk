@@ -25,6 +25,5 @@ object saetaDeFuego {
 
 //--------------------------------------
 object mercadoDeEscobas{
-	var escobasDisponibles
 	var property valorArbitrario
 }
