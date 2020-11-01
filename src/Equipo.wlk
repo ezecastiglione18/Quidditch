@@ -55,7 +55,7 @@ class Equipo {
 		return self.losCazadores().all( {jugador => jugador.tieneQuaffle().negate()} )
 	}
 	
-	method blancosFaciles(){
-		return jugadores.filter( {jugador => jugador.esBlancoFacil()} )
+	method blancosUtiles(){
+		return jugadores.filter( {jugador => jugador.esBlancoUtil()} )
 	}
 }

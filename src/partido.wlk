@@ -14,6 +14,7 @@ object partido {
 	
 	method jugar(){
 		equipo1.jugarTurno(equipo2)
+		equipo2.jugarTurno(equipo1)
 	}
 	
 	method sumarlePuntosAlEquipoDe(unJugador, unosPuntos){
@@ -24,8 +25,6 @@ object partido {
 		{
 			self.subirPuntosEquipo2(unosPuntos)
 		}
-		
-		equipo2.jugarTurno(equipo1)
 	}
 	
 	method subirPuntosEquipo1(unosPuntos){

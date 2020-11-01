@@ -42,7 +42,7 @@ class Jugador {
 	}
 	
 	method restarSkills(numero){
-		self.sumarSkills(-numero)
+		self.sumarSkills(0-numero)
 	}
 	
 	method lePegoUnaBlundger(){
@@ -95,7 +95,7 @@ class Cazador inherits Jugador {
 		tieneQuaffle = true
 	}
 	
-	method esBlancoFacil(){
+	method esBlancoUtil(){
 		return tieneQuaffle
 	}
 	
@@ -122,7 +122,7 @@ class Guardian inherits Jugador {
 		
 	}
 	
-	method esBlancoFacil(){
+	method esBlancoUtil(){
 		return equipoActual.noTieneQuaffle()
 	}
 }
@@ -151,15 +151,17 @@ class Golpeador inherits Jugador {
 		return punteria > unJugador.nivelReflejos()
 	}
 	
-	method esBlancoFacil(){
+	method esBlancoUtil(){
 		return false
 	}
 }
 
 class Buscador inherits Jugador {
 	var nivelVision
-	//const tieneSnitch = false
-	
+	var distanciaASnitch = 5000
+	var buscandoLaSnitch = true
+	var cantidadTurnos = 0
+		
 	override method habilidad(){
 		return self.velocidadMaxima() + skills + (nivelReflejos * nivelVision)
 	}
@@ -168,11 +170,49 @@ class Buscador inherits Jugador {
 		
 	}
 	
-	method esBlancoFacil(){
-		return true //MODIFICAR!
+	method jugarTurno(otroEquipo){
+		if(buscandoLaSnitch){
+			const numeroRandom = [1..1000].anyOne()
+			self.verificarSiEncontroSnitch(numeroRandom)
+		}
+		distanciaASnitch = 5000
+		buscandoLaSnitch = true
+	}
+	
+	method verificarSiEncontroSnitch(unNumero){
+		if(unNumero < self.habilidad() + cantidadTurnos){
+			self.persiguiendoLaSnitch()
+			buscandoLaSnitch = false
+		}
+	}
+	
+	method persiguiendoLaSnitch(){
+		const kmRecorridos = distanciaASnitch - self.velocidadMaxima() / 1.6
+		distanciaASnitch -= kmRecorridos
+		
+		if(distanciaASnitch == 0){
+			self.atrapoLaSnitch()
+		}
+		
+		cantidadTurnos++
+	}
+	
+	method atrapoLaSnitch(){
+		equipoActual.sumarPuntosGraciasA(150, self)
+		skills += 10
+	}
+	
+	method esBlancoUtil(){
+		return buscandoLaSnitch || distanciaASnitch < 1000
 	}
 	
 	override method lePegoUnaBlundger(){
-		super() //&& self.resetearBusquedaSnitch()
+		super() 
+		self.resetearBusquedaSnitch()
+	}
+	
+	method resetearBusquedaSnitch(){
+		buscandoLaSnitch = true
+		distanciaASnitch = 5000
 	}
 }
